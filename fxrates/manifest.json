@@ -1,10 +1,9 @@
 {
   "manifest_version": 2,
 
-  "name": "GBP/INR Ex-Rate from SBI UK",
-  "description": "This extension displays Indian Rupee Exchange Rates From SBI",
+  "name": "Latest Forex Rates from SBI UK",
+  "description": "This extension displays Latest Exchange Rates From SBI UK",
   "version": "1.0",
-
   "permissions": [
     "http://www.sbiuk.com/"
   ],

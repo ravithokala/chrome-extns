@@ -12,14 +12,30 @@
         img {
             border: 0px solid black;
             vertical-align: middle;
-            width: 120px;
+            width: 130px;
             height: 40px;
         }
 
         #sbi_response {
+            color: #00bfff;
+        }
+
+        .fxvalue {
             font-weight: bold;
             color: #00bfff;
         }
+
+        #curr_time_div{
+            font-size: smaller;
+            color: #20b2aa;
+        }
+
+        #curr_time{
+            font-weight: bold;
+            font-size: smaller;
+            color: #20b2aa;
+        }
+
     </style>
     <script src="popup.js"></script>
 </head>
@@ -28,7 +44,14 @@
     <div><img src="http://www.sbiuk.com/Portals/_default/Skins/sbiuk/images/logo.jpg"></div>
     <br/>
 
-    <div id="sbi_response">GBP/INR: 00.00</div>
+    <div id="sbi_response">
+        <div id="gbp_inr_div">GBP/INR: <span class="fxvalue" id="gbp_inr">00.00</span></div>
+        <div id="usd_inr_div">USD/INR: <span class="fxvalue" id="usd_inr">00.00</span></div>
+        <div id="eur_inr_div">EUR/INR: <span class="fxvalue" id="eur_inr">00.00</span></div>
+        <div id="gbp_usd_div">GBP/USD: <span class="fxvalue" id="gbp_usd">0.000</span></div>
+    </div>
+    <br>
+    <div id="curr_time_div">Last Updated: <span id="curr_time"></span></div>
 </div>
 </body>
 </html>
