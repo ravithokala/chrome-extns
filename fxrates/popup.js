@@ -1,4 +1,4 @@
-function updateDom(fxRates){
+function updateDom(fxRates) {
     document.getElementById("gbp_inr").innerHTML = fxRates.gbp_inr;
     document.getElementById("usd_inr").innerHTML = fxRates.usd_inr;
     document.getElementById("eur_inr").innerHTML = fxRates.eur_inr
@@ -8,5 +8,5 @@ function updateDom(fxRates){
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    getLatestFromSBI(updateDom);
+    getLatestFromSBI(updateDom, onError);
 });

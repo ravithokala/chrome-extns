@@ -38,28 +38,49 @@ function getRate(fxPair, rates1HTML, numPlaces, decimalPlaces) {
     return new RegExp("[0-9]{" + numPlaces + "}.[0-9]{" + decimalPlaces + "}", "g").exec(fxpair);
 }
 
-function getLatestFromSBI(callback) {
+function getFxRatesFromResponse(response) {
+    // WARNING! Might be injecting a malicious script!
+    var hiddenDiv = document.createElement("div");
+    document.body.appendChild(hiddenDiv);
+    hiddenDiv.style.display = "none";
+    hiddenDiv.innerHTML = /<body[^>]*>([\s\S]+)<\/body>/i.exec(response)[1];
+    var ratesHTML = hiddenDiv.getElementsByClassName("scroller")[0].childNodes[1].innerHTML;
+    var gbp_inr = getRate("GBP/INR", ratesHTML, 2, 2);
+    var usd_inr = getRate("USD/INR", ratesHTML, 2, 2);
+    var eur_inr = getRate("EUR/INR", ratesHTML, 2, 2);
+    var gbp_usd = getRate("GBP/USD", ratesHTML, 1, 4);
+    document.body.removeChild(hiddenDiv);
+    return {
+        gbp_inr: gbp_inr,
+        usd_inr: usd_inr,
+        eur_inr: eur_inr,
+        gbp_usd: gbp_usd
+    }
+}
+
+function onSuccess(fxRates) {
+    updateDefaultFxRate(fxRates);
+}
+
+function onError() {
+    updateDefaultFxRate({
+        gbp_inr: '',
+        usd_inr: '',
+        eur_inr: '',
+        gbp_usd: ''
+    });
+}
+
+function getLatestFromSBI(success, error) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://www.sbiuk.com/", true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            // WARNING! Might be injecting a malicious script!
-            var hiddenDiv = document.createElement("div");
-            document.body.appendChild(hiddenDiv);
-            hiddenDiv.style.display = "none";
-            hiddenDiv.innerHTML = /<body[^>]*>([\s\S]+)<\/body>/i.exec(xhr.responseText)[1];
-            var ratesHTML = hiddenDiv.getElementsByClassName("scroller")[0].childNodes[1].innerHTML;
-            var gbp_inr = getRate("GBP/INR", ratesHTML, 2, 2);
-            var usd_inr = getRate("USD/INR", ratesHTML, 2, 2);
-            var eur_inr = getRate("EUR/INR", ratesHTML, 2, 2);
-            var gbp_usd = getRate("GBP/USD", ratesHTML, 1, 4);
-            var fxRates = {
-                gbp_inr: gbp_inr,
-                usd_inr: usd_inr,
-                eur_inr: eur_inr,
-                gbp_usd: gbp_usd
+            if (xhr.status === 200 || xhr.status === 304) {
+                success(getFxRatesFromResponse(xhr.responseText));
+            } else {
+                error();
             }
-            callback(fxRates);
         }
     }
     xhr.send(null);
@@ -81,7 +102,7 @@ function onAlarm(alarm) {
 if (chrome.runtime && chrome.runtime.onStartup) {
     chrome.runtime.onStartup.addListener(function () {
         console.log('Starting browser... updating icon.');
-        getLatestFromSBI(updateDefaultFxRate);
+        getLatestFromSBI(onSuccess, onError);
     });
 } else {
     // This hack is needed because Chrome 22 does not persist browserAction icon
@@ -90,7 +111,7 @@ if (chrome.runtime && chrome.runtime.onStartup) {
     // in a version of Chrome that has this problem.
     chrome.windows.onCreated.addListener(function () {
         console.log('Window created... updating icon.');
-        getLatestFromSBI(updateDefaultFxRate);
+        getLatestFromSBI(onSuccess, onError);
     });
 }
 
