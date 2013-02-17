@@ -1,3 +1,5 @@
+var REFRESH_TIME_IN_MINS = 60;  // Every hour
+
 function normalize(num) {
     if (num < 10) {
         return "0" + num;
@@ -26,6 +28,9 @@ function updateIcon() {
 function updateDefaultFxRate(fxRates) {
     localStorage.defaultFxrate = fxRates.gbp_inr;
     updateIcon();
+
+    console.log('Creating alarm for next update');
+    chrome.alarms.create('refresh', {periodInMinutes: REFRESH_TIME_IN_MINS});
 }
 
 function getRate(fxPair, rates1HTML, numPlaces, decimalPlaces) {
@@ -65,6 +70,10 @@ function onInit() {
     getLatestFromSBI(updateDefaultFxRate);
 }
 
+function onAlarm(alarm) {
+    console.log('Got alarm', new Date());
+    getLatestFromSBI(updateDefaultFxRate);
+}
 
 // Binding the events
 
@@ -89,3 +98,6 @@ if (chrome.runtime && chrome.runtime.onStartup) {
 chrome.runtime.onInstalled.addListener(function () {
     onInit();
 })
+
+// Alarm Event for refresh
+chrome.alarms.onAlarm.addListener(onAlarm);
