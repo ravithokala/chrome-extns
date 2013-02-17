@@ -60,6 +60,15 @@ function getLatestFromSBI(callback) {
     xhr.send(null);
 }
 
+function onInit() {
+    console.log('onInit');
+    getLatestFromSBI(updateDefaultFxRate);
+}
+
+
+// Binding the events
+
+//Browser Startup Event
 if (chrome.runtime && chrome.runtime.onStartup) {
     chrome.runtime.onStartup.addListener(function () {
         console.log('Starting browser... updating icon.');
@@ -76,3 +85,7 @@ if (chrome.runtime && chrome.runtime.onStartup) {
     });
 }
 
+//On Installed Event
+chrome.runtime.onInstalled.addListener(function () {
+    onInit();
+})
