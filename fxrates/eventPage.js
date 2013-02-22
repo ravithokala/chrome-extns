@@ -39,17 +39,13 @@ function getRate(fxPair, rates1HTML, numPlaces, decimalPlaces) {
 }
 
 function getFxRatesFromResponse(response) {
-    // WARNING! Might be injecting a malicious script!
-    var hiddenDiv = document.createElement("div");
-    document.body.appendChild(hiddenDiv);
-    hiddenDiv.style.display = "none";
-    hiddenDiv.innerHTML = /<body[^>]*>([\s\S]+)<\/body>/i.exec(response)[1];
-    var ratesHTML = hiddenDiv.getElementsByClassName("scroller")[0].childNodes[1].innerHTML;
+    var regEx = new RegExp("Indicative Foreign Exchange Rates.*", "g");
+    var ratesHTML = regEx.exec(response);
     var gbp_inr = getRate("GBP/INR", ratesHTML, 2, 2);
     var usd_inr = getRate("USD/INR", ratesHTML, 2, 2);
     var eur_inr = getRate("EUR/INR", ratesHTML, 2, 2);
     var gbp_usd = getRate("GBP/USD", ratesHTML, 1, 4);
-    document.body.removeChild(hiddenDiv);
+
     return {
         gbp_inr: gbp_inr,
         usd_inr: usd_inr,
