@@ -1,4 +1,4 @@
-var REFRESH_TIME_IN_MINS = 60;  // Every hour
+var DEFAULT_REFRESH_TIME_IN_MINS = 10;  // Every 10 mins
 
 function normalize(num) {
     if (num < 10) {
@@ -29,8 +29,13 @@ function updateDefaultFxRate(fxRates) {
     localStorage.defaultFxrate = fxRates.gbp_inr;
     updateIcon();
 
-    console.log('Creating alarm for next update');
-    chrome.alarms.create('refresh', {periodInMinutes: REFRESH_TIME_IN_MINS});
+    var refreshTimeInMins = +localStorage["refreshTimeInMins"]; // converting to int
+    if (!refreshTimeInMins) {
+        refreshTimeInMins = DEFAULT_REFRESH_TIME_IN_MINS;
+    }
+
+    console.log('Creating alarm for next update in ' + refreshTimeInMins + " mins.");
+    chrome.alarms.create('refresh', {periodInMinutes: refreshTimeInMins});
 }
 
 function getRate(fxPair, rates1HTML, numPlaces, decimalPlaces) {
