@@ -4,22 +4,57 @@
 
         body {
             background-color: #fffacd;
+            text-align: center
         }
 
+        table td.leftalign {
+            text-align: left;
+        }
+
+        table td.rightalign {
+            text-align: right;
+        }
+
+        table td.centeralign {
+            text-align: center;
+        }
 
     </style>
 </head>
 
-<body style="text-align:center">
+<body>
 
-<div id="1any-height">
+<h3>
+    Options for SBI UK Fx Rates Chrome Extension
+</h3>
 
-    Refresh Time in minutes:<input type="text" id="refreshTimeInMins"><br>
-    <div id="status"></div>
-    <button id="save">Save</button>
-</div>
+<table border="0" align="center">
+    <tr>
+        <td class="rightalign">Refresh Time in minutes</td>
+        <td class="leftalign"><input type="text" id="refreshTimeInMins"></td>
+    </tr>
+    <tr>
+        <td class="rightalign">FxRate that should be displayed on the icon</td>
+        <td class="leftalign">
+            <select id="defaultFxRate">
+                <option selected=true value="gbp_inr">GBP/INR</option>
+                <option value="usd_inr">USD/INR</option>
+                <option value="eur_inr">EUR/INR</option>
+                <option value="gbp_usd">GBP/USD</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+       <td colspan="2" class="centeralign">
+           <button id="save">Save</button>
+       </td>
+    </tr>
+</table>
+<div id="status"></div>
+
 </body>
 
+<script src="common.js"></script>
 <script src="options.js"></script>
 
 </html>
