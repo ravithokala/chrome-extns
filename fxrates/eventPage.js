@@ -52,14 +52,21 @@ if (chrome.runtime && chrome.runtime.onStartup) {
     });
 }
 
+function onInit() {
+    console.log('onInit');
+    getLatestFromSBI(updateDefaultFxRate);
+}
+
+function onAlarm(alarm) {
+    console.log('Got alarm', new Date());
+    getLatestFromSBI(updateDefaultFxRate);
+}
+
+
 //On Installed Event
 chrome.runtime.onInstalled.addListener(function () {
-    console.log('onInstalled');
-    getLatestFromSBI(updateIcon);
+    onInit();
 })
 
 // Alarm Event for refresh
-chrome.alarms.onAlarm.addListener(function(){
-    console.log('Got alarm', new Date());
-    getLatestFromSBI(updateIcon);
-});
+chrome.alarms.onAlarm.addListener(onAlarm);
