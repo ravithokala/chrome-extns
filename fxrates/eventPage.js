@@ -54,12 +54,12 @@ if (chrome.runtime && chrome.runtime.onStartup) {
 
 function onInit() {
     console.log('onInit');
-    getLatestFromSBI(updateDefaultFxRate);
+    getLatestFromSBI(updateIcon);
 }
 
 function onAlarm(alarm) {
     console.log('Got alarm', new Date());
-    getLatestFromSBI(updateDefaultFxRate);
+    getLatestFromSBI(updateIcon);
 }
 
 
