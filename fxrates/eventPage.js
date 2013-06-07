@@ -1,15 +1,15 @@
-function getRate(fxPair, ratesHTML, numPlaces, decimalPlaces) {
-    var fxPair = new RegExp(fxPair + ": [0-9]{" + numPlaces + "}.[0-9]{" + decimalPlaces + "}", "g").exec(ratesHTML);
-    return new RegExp("[0-9]{" + numPlaces + "}.[0-9]{" + decimalPlaces + "}", "g").exec(fxPair);
+function getRate(fxPair, ratesHTML) {
+    var onlyFxPair =  new RegExp(fxPair + ": \\d+.\\d* ", "g").exec(ratesHTML);
+    return  new RegExp("\\d+.\\d*", "g").exec(onlyFxPair);
 }
 
 function getFxRatesFromResponse(response) {
     var regEx = new RegExp("Indicative Foreign Exchange Rates.*", "g");
     var ratesHTML = regEx.exec(response);
-    var gbp_inr = getRate("GBP/INR", ratesHTML, 2, 2);
-    var usd_inr = getRate("USD/INR", ratesHTML, 2, 2);
-    var eur_inr = getRate("EUR/INR", ratesHTML, 2, 2);
-    var gbp_usd = getRate("GBP/USD", ratesHTML, 1, 4);
+    var gbp_inr = getRate("GBP/INR", ratesHTML);
+    var usd_inr = getRate("USD/INR", ratesHTML);
+    var eur_inr = getRate("EUR/INR", ratesHTML);
+    var gbp_usd = getRate("GBP/USD", ratesHTML);
 
     return {
         gbp_inr: gbp_inr,
