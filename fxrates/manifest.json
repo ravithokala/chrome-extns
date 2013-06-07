@@ -4,7 +4,7 @@
     "name": "Latest Forex Rates from SBI UK",
     "description": "This extension displays Latest Exchange Rates From SBI UK",
     "options_page": "options.html",
-    "version": "1.0",
+    "version": "2.0",
     "permissions": [
         "alarms",
         "http://www.sbiuk.com/"
@@ -14,7 +14,7 @@
         "default_popup": "popup.html"
     },
     "background": {
-        "scripts": ["eventPage.js"],
+        "scripts": ["eventPage.js", "common.js"],
         "persistent": false
     }
 

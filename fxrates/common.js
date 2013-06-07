@@ -85,7 +85,7 @@ function updateIcon() {
     var sbiUkOptions = getOptions();
     var sbiUkData = getData();
     if (sbiUkData) {
-        var fxRates = sbiUkData.fxRates; // Error handling
+        var fxRates = sbiUkData.fxRates;
         chrome.browserAction.setBadgeText({text: fxRates[sbiUkOptions.defaultFxRate] + ""});
     }
     var refreshTimeInMins = +sbiUkOptions.refreshTimeInMins; // converting to int

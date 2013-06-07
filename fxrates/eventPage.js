@@ -1,5 +1,5 @@
-function getRate(fxPair, rates1HTML, numPlaces, decimalPlaces) {
-    var fxPair = new RegExp(fxPair + ": [0-9]{" + numPlaces + "}.[0-9]{" + decimalPlaces + "}", "g").exec(rates1HTML);
+function getRate(fxPair, ratesHTML, numPlaces, decimalPlaces) {
+    var fxPair = new RegExp(fxPair + ": [0-9]{" + numPlaces + "}.[0-9]{" + decimalPlaces + "}", "g").exec(ratesHTML);
     return new RegExp("[0-9]{" + numPlaces + "}.[0-9]{" + decimalPlaces + "}", "g").exec(fxPair);
 }
 
@@ -52,21 +52,14 @@ if (chrome.runtime && chrome.runtime.onStartup) {
     });
 }
 
-function onInit() {
-    console.log('onInit');
-    getLatestFromSBI(updateIcon);
-}
-
-function onAlarm(alarm) {
-    console.log('Got alarm', new Date());
-    getLatestFromSBI(updateIcon);
-}
-
-
 //On Installed Event
-chrome.runtime.onInstalled.addListener(function () {
-    onInit();
-})
+chrome.runtime.onInstalled.addListener(function(details){
+    console.log('Event: onInstalled ' + details.reason);
+    getLatestFromSBI(updateIcon);
+});
 
 // Alarm Event for refresh
-chrome.alarms.onAlarm.addListener(onAlarm);
+chrome.alarms.onAlarm.addListener(function(){
+    console.log('Got alarm', new Date());
+    getLatestFromSBI(updateIcon);
+});

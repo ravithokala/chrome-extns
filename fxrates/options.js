@@ -19,6 +19,9 @@ function restore_options() {
     var sbiUkOptions = getOptions();
     document.getElementById("refreshTimeInMins").value = sbiUkOptions.refreshTimeInMins;
     document.getElementById("defaultFxRate").value = sbiUkOptions.defaultFxRate;
+
+    var sbiUkData = getData();
+    document.getElementById("hiddenDiv").innerHTML =  sbiUkData.updatedTime;
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);

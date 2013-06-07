@@ -8,10 +8,9 @@ function updateDom() {
         document.getElementById("eur_inr").innerHTML = fxRates.eur_inr
         document.getElementById("gbp_usd").innerHTML = fxRates.gbp_usd;
         document.getElementById("lastUpdated").innerHTML = updatedTime;
-        updateIcon();
     }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    getLatestFromSBI(updateDom);
+    updateDom();
 });
