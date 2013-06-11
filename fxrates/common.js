@@ -88,6 +88,4 @@ function updateIcon() {
         var fxRates = sbiUkData.fxRates;
         chrome.browserAction.setBadgeText({text: fxRates[sbiUkOptions.defaultFxRate] + ""});
     }
-    var refreshTimeInMins = +sbiUkOptions.refreshTimeInMins; // converting to int
-    setNextAlarm(refreshTimeInMins);
 }
